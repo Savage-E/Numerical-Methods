@@ -17,7 +17,8 @@ namespace GraphicImplementation
         //Right part of y'=f(x,y)
         static public double func(double x, double y)
         {
-            return x * x - 2 * y;
+            // return x * x - 2 * y;
+            return Math.Tan(x + 2 * y) / (x * x + y);
         }
 
         private double a, b; //The range on which is being calculating y(x).
@@ -31,15 +32,15 @@ namespace GraphicImplementation
         public PlotView pv = new PlotView
         {
             Location = new Point(0, 0),
-            Size = new Size(750, 750),
-            Model = new PlotModel { Title = "f(x,y)=x^2-2y  y(0)=1 " },
+            Size = new Size(700, 500),
+            Model = new PlotModel { Title = "f(x,y)=tan(x+2y)/(x^2-y)  y(1)=1 " },
         };
 
         private void Modified_Euler_CheckedChanged(object sender, EventArgs e)
         {
             dv.Rows.Clear();
 
-            pv.Model = new PlotModel { Title = "f(x,y)=x^2-3*y  y(0)=1 Midified Euler" };
+            pv.Model = new PlotModel { Title = "f(x,y)=tan(x+2y)/(x^2-y)  y(1)=1 Midified Euler" };
             FunctionSeries fs = new FunctionSeries();
             pv.Model.Series.Add(fs);
             fs.Color = OxyColors.Black;
@@ -50,8 +51,11 @@ namespace GraphicImplementation
             x = new double[n];
             y = new double[n];
 
-            x[0] = 0;
+            //x[0] = 0;
+            //y[0] = 1;
+            x[0] = 1;
             y[0] = 1;
+            fs.Points.Add(new DataPoint(x[0], y[0]));
 
             double y12;
             for (int i = 0; i < n - 1; i++)
@@ -66,7 +70,7 @@ namespace GraphicImplementation
 
         private void Euler_CheckedChanged(object sender, EventArgs e)
         {
-            pv.Model = new PlotModel { Title = "f(x,y)=x^2-3*y  y(0)=1 Euler" };
+            pv.Model = new PlotModel { Title = "f(x,y)=tan(x+2y)/(x^2-y)  y(1)=1 Euler" };
             dv.Rows.Clear();
             FunctionSeries fs = new FunctionSeries();
             pv.Model.Series.Add(fs);
@@ -78,8 +82,11 @@ namespace GraphicImplementation
             x = new double[n];
             y = new double[n];
 
-            x[0] = 0;
+            // x[0] = 0;
+            // y[0] = 1;
+            x[0] = 1;
             y[0] = 1;
+            fs.Points.Add(new DataPoint(x[0], y[0]));
 
             double yii;
             for (int i = 0; i < n - 1; i++)
@@ -93,21 +100,9 @@ namespace GraphicImplementation
             ShowPoints();
         }
 
-        private void GraphicsForm_Load(object sender, EventArgs e)
+        private void Euler_w_Right_CheckedChanged(object sender, EventArgs e)
         {
-            Controls.Add(pv);
-            a = 0;
-            b = 1;
-            h = 0.1;
-            n = (int)Math.Ceiling((b - a) / h) + 1;
-
-            x[0] = 0;
-            y[0] = 1;
-        }
-
-        private void Rugle_Kutte_CheckedChanged(object sender, EventArgs e)
-        {
-            pv.Model = new PlotModel { Title = "f(x,y)=x^2-3*y  y(0)=1 Runge-Kutta" };
+            pv.Model = new PlotModel { Title = "f(x,y)=tan(x+2y)/(x^2-y)  y(1)=1 Euler with right difference" };
             dv.Rows.Clear();
             FunctionSeries fs = new FunctionSeries();
             pv.Model.Series.Add(fs);
@@ -119,10 +114,95 @@ namespace GraphicImplementation
             x = new double[n];
             y = new double[n];
 
-            x[0] = 0;
+            x[0] = 1;
             y[0] = 1;
 
+            fs.Points.Add(new DataPoint(x[0], y[0]));
+
+            for (int i = 0; i < n - 1; i++)
+            {
+                y[i + 1] = y[i] + h * func(x[i], y[i]);
+                x[i + 1] = x[i] + h;
+                fs.Points.Add(new DataPoint(x[i + 1], y[i + 1]));
+            }
+
+            ShowPoints();
+        }
+
+        private void Euler_central_CheckedChanged(object sender, EventArgs e)
+        {
+            pv.Model = new PlotModel { Title = "f(x,y)=tan(x+2y)/(x^2-y)  y(1)=1 Euler with cental difference" };
+            dv.Rows.Clear();
+            FunctionSeries fs = new FunctionSeries();
+            pv.Model.Series.Add(fs);
+            fs.Color = OxyColors.Black;
+            fs.MarkerStroke = OxyColors.Red;
+            fs.MarkerType = MarkerType.Cross;
+            fs.MarkerSize = 5;
+
+            x = new double[n];
+            y = new double[n];
+
+            x[0] = 1;
+            y[0] = 1;
+
+            fs.Points.Add(new DataPoint(x[0], y[0]));
+
+            y[1] = y[0] + h * func(x[0], y[0]);
+            x[1] = x[0] + h;
+
+            fs.Points.Add(new DataPoint(x[1], y[1]));
+
+            for (int i = 1; i < n - 1; i++)
+            {
+                y[i + 1] = y[i - 1] + 2 * h * func(x[i], y[i]);
+                x[i + 1] = x[i] + h;
+                fs.Points.Add(new DataPoint(x[i + 1], y[i + 1]));
+            }
+
+            ShowPoints();
+        }
+
+        private void GraphicsForm_Load(object sender, EventArgs e)
+        {
+            Controls.Add(pv);
+            //a = 0;
+            // b = 1;
+            a = 1;
+            b = 2;
+            h = 0.01;
+            n = (int)Math.Ceiling((b - a) / h) + 1;
+            x = new double[n];
+            y = new double[n];
+
+            //x[0] = 0;
+            //y[0]=1
+            x[0] = 1;
+            y[0] = 1;
+        }
+
+        private void Rugle_Kutte_CheckedChanged(object sender, EventArgs e)
+        {
+            pv.Model = new PlotModel { Title = "f(x,y)=tan(x+2y)/(x^2-y)  y(1)=1 Runge-Kutta" };
+            dv.Rows.Clear();
+            FunctionSeries fs = new FunctionSeries();
+            pv.Model.Series.Add(fs);
+            fs.Color = OxyColors.Black;
+            fs.MarkerStroke = OxyColors.Red;
+            fs.MarkerType = MarkerType.Cross;
+            fs.MarkerSize = 5;
+
+            x = new double[n];
+            y = new double[n];
+
+            //            x[0] = 0;
+            //          y[0] = 1;
+
+            x[0] = 1;
+            y[0] = 1;
             double k0, k1, k2, k3;
+
+            fs.Points.Add(new DataPoint(x[0], y[0]));
 
             for (int i = 0; i < n - 1; i++)
             {
@@ -140,7 +220,7 @@ namespace GraphicImplementation
 
         private void Adams_CheckedChanged(object sender, EventArgs e)
         {
-            pv.Model = new PlotModel { Title = "f(x,y)=x^2-3*y  y(0)=1 Adams" };
+            pv.Model = new PlotModel { Title = "f(x,y)=tan(x+2y)/(x^2-y)  y(1)=1 Adams" };
             dv.Rows.Clear();
             FunctionSeries fs = new FunctionSeries();
             pv.Model.Series.Add(fs);
@@ -153,24 +233,36 @@ namespace GraphicImplementation
             y = new double[n];
             f = new double[n];
 
-            x[0] = 0;
+            //x[0] = 0;
+
+            //y[0] = 1;
+            x[0] = 1;
             y[0] = 1;
             f[0] = func(x[0], y[0]);
+
+            fs.Points.Add(new DataPoint(x[0], y[0]));
+
 
             //Calculating the approximate value in the 1st point by Euler's method.
             x[1] = x[0] + h;
             y[1] = y[0] + h * f[0];
             f[1] = func(x[1], y[1]);
 
+            fs.Points.Add(new DataPoint(x[1], y[1]));
+
             //Calculating the approximate value in the 2nd point by 2nd order Adams method.
             x[2] = x[1] + h;
             y[2] = y[1] + h * (3 / 2 * f[1] - 1 / 2 * f[0]);
             f[2] = func(x[2], y[2]);
+            fs.Points.Add(new DataPoint(x[2], y[2]));
+
 
             //Calculating the approximate value in the 3rd point by 3rd order Adams method.
             x[3] = x[2] + h;
             y[3] = y[2] + h / 12 * (23 * f[2] - 16 * f[1] + 5 * f[0]);
             f[3] = func(x[3], y[3]);
+
+            fs.Points.Add(new DataPoint(x[3], y[3]));
 
             //Calculating approximate values in subsequent points by 4th order Adams method.
             for (int i = 3; i < n - 1; i++)
@@ -188,11 +280,11 @@ namespace GraphicImplementation
         /// </summary>
         private void ShowPoints()
         {
-            for (int i = 0; i < n - 1; i++)
+            for (int i = 0; i < n ; i++)
             {
                 dv.Rows.Add();
-                dv.Rows[i].Cells["Xi"].Value = x[i + 1];
-                dv.Rows[i].Cells["Yi"].Value = y[i + 1];
+                dv.Rows[i].Cells["Xi"].Value = x[i];
+                dv.Rows[i].Cells["Yi"].Value = y[i];
             }
         }
     }

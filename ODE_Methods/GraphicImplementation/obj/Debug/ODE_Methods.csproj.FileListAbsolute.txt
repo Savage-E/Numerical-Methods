@@ -1,0 +1,14 @@
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\bin\Debug\GraphicImplementation.exe.config
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\bin\Debug\GraphicImplementation.exe
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\bin\Debug\GraphicImplementation.pdb
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\bin\Debug\OxyPlot.dll
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\bin\Debug\OxyPlot.WindowsForms.dll
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\bin\Debug\OxyPlot.xml
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\bin\Debug\OxyPlot.WindowsForms.xml
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\obj\Debug\GraphicImplementation.Form1.resources
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\obj\Debug\GraphicImplementation.Properties.Resources.resources
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\obj\Debug\ODE_Methods.csproj.GenerateResource.cache
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\obj\Debug\ODE_Methods.csproj.CopyComplete
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\obj\Debug\GraphicImplementation.exe
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\obj\Debug\GraphicImplementation.pdb
+C:\Users\Massi\Desktop\ODE_Methods\GraphicImplementation\obj\Debug\ODE_Methods.csprojAssemblyReference.cache
